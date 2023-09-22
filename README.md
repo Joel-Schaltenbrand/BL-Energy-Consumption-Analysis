@@ -17,7 +17,7 @@ This project contains two subprojects:
 
 ## Overview / Problem Statement
 
-The Canton of Basellandschaft currently consumes a significant amount of energy. The goal of this analysis program is to correctly and effectively evaluate the data to make informed energy-related decisions.
+The Canton of Basellandschaft currently consumes a significant amount of energy. The goal of this analysis program, built with the Spring framework, is to correctly and effectively evaluate the data to make informed energy-related decisions.
 
 ## Data Source
 
@@ -46,8 +46,8 @@ Sample data record:
 7. Compare two municipalities.
 
 ## Technologies
-
 - Programming Language: Java
+- Framework: Spring
 - UI: Console output using built-in tools
 - Type of Application: Console application
 - Functional Elements: Streams API, Lambda Expressions, GSON
