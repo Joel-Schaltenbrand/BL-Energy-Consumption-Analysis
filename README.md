@@ -4,6 +4,9 @@
 
 Energy Consumption BL
 
+## Project Details
+This project is a collaborative effort between [@Joel-Schaltenbrand](https://github.com/Joel-Schaltenbrand) and [@Leonden](https://github.com/Leonden), who are currently enrolled in the M323 Functional Programming module at BBZBL (Berufsschule Baselland). The module focuses on applying functional programming concepts to address real-world data analysis challenges.
+
 ## Subprojects
 
 This project contains two subprojects:
