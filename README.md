@@ -50,10 +50,5 @@ Formatted output on the console.
   2. Lampenberg - ...MWh
   ```
 
-## How to Use
-1. Download the JSON data from [www.opendata.swiss](https://www.opendata.swiss).
-2. Insert the JSON file into the project.
-3. Run the console application and use the provided commands to perform the desired analyses.
-
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
