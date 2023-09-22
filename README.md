@@ -1,16 +1,20 @@
-# Energy Consumption Analysis - BL
+# Energy Consumption BL Analysis
 
 ## Project Title
+
 Energy Consumption BL
 
 ## Overview / Problem Statement
+
 The Canton of Basellandschaft currently consumes a significant amount of energy. The goal of this analysis program is to correctly and effectively evaluate the data to make informed energy-related decisions.
 
 ## Data Source
+
 The data has been sourced from the website [www.opendata.swiss](https://www.opendata.swiss) and comprises accurate data from 1990 to 2020. This data is retrieved from a JSON file that can be downloaded from the website and integrated into the program.
 
 Sample data record:
-```
+
+```json
 {
   "year": 1990,
   "bfs_number": 2761,
@@ -21,6 +25,7 @@ Sample data record:
 ```
 
 ## Features
+
 1. Display the average consumption for all municipalities per year.
 2. Display the average consumption for all years per municipality.
 3. Identify the highest consumption for a municipality in a chosen year.
@@ -30,15 +35,18 @@ Sample data record:
 7. Compare two municipalities.
 
 ## Technologies
+
 - Programming Language: Java
 - UI: Console output using built-in tools
 - Type of Application: Console application
 - Functional Elements: Streams API, Lambda Expressions, GSON
 
 ## Output
+
 Formatted output on the console.
 
 ### Examples
+
 - Average consumption for all municipalities per year:
   ```
   - 1990 – Aesch: .... MWh
@@ -50,5 +58,16 @@ Formatted output on the console.
   2. Lampenberg - ...MWh
   ```
 
+## Subprojects
+
+This project contains two subprojects:
+
+1. [Normal Project](/v1.0/README.md): This is the normal version of the Energy Consumption Analysis project.
+
+2. [Refactored Project](/v2.0/README.md): This is the refactored version of the Energy Consumption Analysis project using functional programming in Java.
+
+Each subproject has its own README file with detailed information.
+
 ## License
+
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
