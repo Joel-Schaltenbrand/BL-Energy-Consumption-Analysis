@@ -4,6 +4,14 @@
 
 Energy Consumption BL
 
+## Subprojects
+
+This project contains two subprojects:
+
+1. [Normal Project](/v1.0/README.md): This is the normal version of the Energy Consumption Analysis project.
+
+2. [Refactored Project](/v2.0/README.md): This is the refactored version of the Energy Consumption Analysis project using functional programming in Java.
+
 ## Overview / Problem Statement
 
 The Canton of Basellandschaft currently consumes a significant amount of energy. The goal of this analysis program is to correctly and effectively evaluate the data to make informed energy-related decisions.
@@ -57,16 +65,6 @@ Formatted output on the console.
   1. Laufen - ...MWh
   2. Lampenberg - ...MWh
   ```
-
-## Subprojects
-
-This project contains two subprojects:
-
-1. [Normal Project](/v1.0/README.md): This is the normal version of the Energy Consumption Analysis project.
-
-2. [Refactored Project](/v2.0/README.md): This is the refactored version of the Energy Consumption Analysis project using functional programming in Java.
-
-Each subproject has its own README file with detailed information.
 
 ## License
 
