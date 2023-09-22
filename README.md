@@ -29,7 +29,7 @@ Sample data record:
 {
   "year": 1990,
   "bfs_number": 2761,
-  "municipality": "Aesch",
+  "commune": "Aesch",
   "indicator": "Electricity_Consumption_MWh",
   "value": 53693.0
 }
@@ -37,13 +37,13 @@ Sample data record:
 
 ## Features
 
-1. Display the average consumption for all municipalities per year.
-2. Display the average consumption for all years per municipality.
-3. Identify the highest consumption for a municipality in a chosen year.
-4. Identify the lowest consumption for a municipality in a chosen year.
+1. Display the average consumption for all communes per year.
+2. Display the average consumption for all years per commune.
+3. Identify the highest consumption for a commune in a chosen year.
+4. Identify the lowest consumption for a commune in a chosen year.
 5. List the top 10 highest consumers overall.
 6. List the top 10 lowest consumers overall.
-7. Compare two municipalities.
+7. Compare two communes.
 
 ## Technologies
 - Programming Language: Java
@@ -58,15 +58,15 @@ Formatted output on the console.
 
 ### Examples
 
-- Average consumption for all municipalities per year:
+- Average consumption for all communes per year:
   ```
-  - 1990 – Aesch: .... MWh
-  - 1990 – Laufen: .... MWh
+  - 1990:             ....MWh
+  - 1991:             ....MWh
   ```
 - Top 10 highest consumptions from 1990-2020:
   ```
-  1. Laufen - ...MWh
-  2. Lampenberg - ...MWh
+  1. Laufen     -     ...MWh
+  2. Lampenberg -     ...MWh
   ```
 
 ## License
