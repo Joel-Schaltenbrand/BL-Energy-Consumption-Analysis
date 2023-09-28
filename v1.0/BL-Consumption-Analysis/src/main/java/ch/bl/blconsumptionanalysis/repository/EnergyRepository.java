@@ -37,6 +37,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class is used to read the JSON files and to create a list of the corresponding objects.
+ *
+ * @author Joel Schaltenbrand, Leon Hochwimmer
+ * @version 1.0
+ */
 @Repository
 public class EnergyRepository extends AbstractBaseRepository<Entry> {
 
@@ -44,6 +50,12 @@ public class EnergyRepository extends AbstractBaseRepository<Entry> {
 		super(service, Entry.class);
 	}
 
+	/**
+	 * This method is used to return all objects of the corresponding list.
+	 *
+	 * @param options The options object.
+	 * @return The list of objects.
+	 */
 	public List<Entry> getAverageConsumptionPerCommune(Options options) {
 		Map<String, Double> averageConsumptionMap = new HashMap<>();
 		Map<String, Integer> communeCountMap = new HashMap<>();
@@ -67,6 +79,12 @@ public class EnergyRepository extends AbstractBaseRepository<Entry> {
 		return applyOptions(options, result, Comparator.comparing(Entry::getCommune));
 	}
 
+	/**
+	 * This method is used to return all objects of the corresponding list.
+	 *
+	 * @param options The options object.
+	 * @return The list of objects.
+	 */
 	public List<Entry> getAverageConsumptionPerYear(Options options) {
 		Map<Integer, Double> averageConsumptionMap = new HashMap<>();
 		Map<Integer, Integer> yearCountMap = new HashMap<>();
@@ -100,5 +118,27 @@ public class EnergyRepository extends AbstractBaseRepository<Entry> {
 			Collections.reverse(result);
 		}
 		return result;
+	}
+
+	/**
+	 * This method is used to return all objects of the corresponding list.
+	 *
+	 * @return The list of objects.
+	 */
+	public List<Entry> getHighestConsumers() {
+		//TODO: implement
+		return entities;
+	}
+
+	/**
+	 * This method is used to return all objects of the corresponding list.
+	 *
+	 * @param municipality1 The first municipality.
+	 * @param municipality2 The second municipality.
+	 * @return The list of objects.
+	 */
+	public List<Entry> getComparisonOfTwoMunicipalities(String municipality1, String municipality2) {
+		//TODO: implement
+		return entities;
 	}
 }

@@ -29,13 +29,27 @@ import ch.bl.blconsumptionanalysis.dao.JSONReaderDAO;
 
 import java.util.List;
 
+/**
+ * This abstract class is used to read the JSON files and to create a list of the corresponding objects.
+ *
+ * @author Joel Schaltenbrand, Leon Hochwimmer
+ * @version 1.0
+ */
 public abstract class AbstractBaseRepository<T> implements BaseRepository<T> {
 	protected final List<T> entities;
 
+	/**
+	 * This constructor is used to set the path of the JSON file.
+	 */
 	protected AbstractBaseRepository(JSONReaderDAO<T> service, Class<T> clazz) {
 		this.entities = service.getList(clazz);
 	}
 
+	/**
+	 * This method is used to return all objects of the corresponding list.
+	 *
+	 * @return The list of objects.
+	 */
 	@Override
 	public List<T> findAll() {
 		return entities;

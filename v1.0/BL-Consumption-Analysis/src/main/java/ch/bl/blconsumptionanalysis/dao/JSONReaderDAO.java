@@ -27,7 +27,18 @@ package ch.bl.blconsumptionanalysis.dao;
 
 import java.util.List;
 
+/**
+ * This interface is used to read the JSON files and to create a list of the corresponding objects.
+ *
+ * @author Joel Schaltenbrand, Leon Hochwimmer
+ * @version 1.0.
+ */
 public interface JSONReaderDAO<T> {
 
+	/**
+	 * This method is used to return all objects of the corresponding list.
+	 *
+	 * @return The list of objects.
+	 */
 	List<T> getList(Class<T> clazz);
 }

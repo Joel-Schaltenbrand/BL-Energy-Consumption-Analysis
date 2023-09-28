@@ -28,9 +28,18 @@ package ch.bl.blconsumptionanalysis.dao;
 import ch.bl.blconsumptionanalysis.model.Entry;
 import org.springframework.stereotype.Service;
 
+/**
+ * This class is used to read the JSON file and return the list of objects.
+ *
+ * @author Joel Schaltenbrand, Leon Hochwimmer
+ * @version 1.0
+ */
 @Service
 public class EnergyJSONReaderDAO extends AbstractJSONReaderDAO<Entry> {
 
+	/**
+	 * This constructor is used to set the path of the JSON file.
+	 */
 	public EnergyJSONReaderDAO() {
 		super("Electricity-Consumption.json");
 	}

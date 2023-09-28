@@ -29,6 +29,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.Scanner;
 
+/**
+ * This class is used to read the user input.
+ *
+ * @author Joel Schaltenbrand, Leon Hochwimmer
+ * @version 1.0
+ */
 @Service
 public class InputService implements IInputService {
 	private final Scanner scanner;
@@ -37,6 +43,12 @@ public class InputService implements IInputService {
 		this.scanner = new Scanner(System.in);
 	}
 
+	/**
+	 * This method is used to read the user input.
+	 *
+	 * @param message The message to be displayed to the user.
+	 * @return The user input as a String.
+	 */
 	@Override
 	public String readString(String message) {
 		System.out.print(message);
@@ -44,6 +56,12 @@ public class InputService implements IInputService {
 		return input;
 	}
 
+	/**
+	 * This method is used to read the user input.
+	 *
+	 * @param message The message to be displayed to the user.
+	 * @return The user input as an int.
+	 */
 	@Override
 	public int readInt(String message) {
 		System.out.print(message);

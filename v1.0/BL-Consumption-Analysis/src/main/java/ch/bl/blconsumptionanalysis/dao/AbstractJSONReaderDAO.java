@@ -35,20 +35,31 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 
+/**
+ * This abstract class is used to read the JSON files and to create a list of the corresponding objects.
+ *
+ * @author Joel Schaltenbrand, Leon Hochwimmer
+ * @version 1.0
+ */
 public abstract class AbstractJSONReaderDAO<T> implements JSONReaderDAO<T> {
 	private final File fileName;
-	private final Logger logger = Logger.getLogger(AbstractJSONReaderDAO.class.getName());
 
+	/**
+	 * This constructor is used to set the path of the JSON file.
+	 */
 	protected AbstractJSONReaderDAO(String filePath) {
 		this.fileName = new File(filePath);
 	}
 
+	/**
+	 * This method is used to return all objects of the corresponding list.
+	 *
+	 * @return The list of objects.
+	 */
 	@Override
 	public List<T> getList(Class<T> clazz) {
 		Optional<String> json = loadJSON();
-		logger.info("Parsing JSON File");
 		List<T> list;
 		if (json.isEmpty()) {
 			list = new ArrayList<>();
@@ -58,21 +69,22 @@ public abstract class AbstractJSONReaderDAO<T> implements JSONReaderDAO<T> {
 				list = new ArrayList<>();
 			}
 		}
-		logger.info("Finished parsing JSON File");
 		return list;
 	}
 
+	/**
+	 * This method is used to load the JSON file.
+	 *
+	 * @return The JSON file as a string.
+	 */
 	public Optional<String> loadJSON() {
-		logger.info("Loading JSON File: " + fileName);
 		try (InputStream is = getClass().getClassLoader().getResourceAsStream(fileName.getName())) {
 			if (is != null) {
 				return Optional.of(new String(is.readAllBytes(), StandardCharsets.UTF_8));
 			} else {
-				logger.warning("Could not find JSON File: " + fileName);
 				return Optional.empty();
 			}
 		} catch (IOException e) {
-			logger.warning("Could not load JSON File: " + fileName);
 			return Optional.empty();
 		}
 	}
