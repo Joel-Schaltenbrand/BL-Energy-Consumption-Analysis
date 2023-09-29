@@ -52,8 +52,7 @@ public class InputService implements IInputService {
 	@Override
 	public String readString(String message) {
 		System.out.print(message);
-		String input = scanner.nextLine();
-		return input;
+		return scanner.next();
 	}
 
 	/**
@@ -65,7 +64,6 @@ public class InputService implements IInputService {
 	@Override
 	public int readInt(String message) {
 		System.out.print(message);
-		int input = scanner.nextInt();
-		return input;
+		return scanner.nextInt();
 	}
 }

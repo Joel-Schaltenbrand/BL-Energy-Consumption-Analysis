@@ -28,12 +28,14 @@ package ch.bl.blconsumptionanalysis.view;
 import ch.bl.blconsumptionanalysis.model.Entry;
 import ch.bl.blconsumptionanalysis.model.Functions;
 import ch.bl.blconsumptionanalysis.model.Options;
+import ch.bl.blconsumptionanalysis.model.Pair;
 import ch.bl.blconsumptionanalysis.repository.EnergyRepository;
 import ch.bl.blconsumptionanalysis.service.IInputService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class is used to display the main menu and to call the appropriate methods based on the user input.
@@ -74,14 +76,22 @@ public class Main {
 		for (int i = 0; i < Functions.values().length; ++i) {
 			System.out.printf("%d. %s%n", i + 1, Functions.values()[i].getDescription());
 		}
-		function = Functions.values()[inputService.readInt("Your choice: ") - 1];
+		int choice = inputService.readInt("Your choice: ");
+		cleanUp();
+		if (choice == 0) {
+			System.exit(0);
+		} else if (choice < 0 || choice > Functions.values().length) {
+			System.out.println("Invalid input!");
+			pause();
+		}
+		function = Functions.values()[choice - 1];
 		switch (function) {
 			case AVERAGE_CONSUMPTION_PER_YEAR:
 				list = energyRepository.getAverageConsumptionPerYear(getOptions("Year"));
 				printListAverage();
 				break;
 			case AVERAGE_CONSUMPTION_PER_MUNICIPALITY:
-				list = energyRepository.getAverageConsumptionPerCommune(getOptions("Municipality"));
+				list = energyRepository.getAverageConsumptionPerMunicipality(getOptions("Municipality"));
 				printListAverage();
 				break;
 			case HIGHEST_CONSUMERS:
@@ -89,8 +99,11 @@ public class Main {
 				printListHighestConsumers();
 				break;
 			case COMPARISON_OF_TWO_MUNICIPALITIES:
-				list = energyRepository.getComparisonOfTwoMunicipalities(inputService.readString("First municipality: "), inputService.readString("Second municipality: "));
-				printListComparisonOfTwoMunicipalities();
+				String municipality1 = inputService.readString("First municipality: ");
+				String municipality2 = inputService.readString("Second municipality: ");
+				cleanUp();
+				Map<Integer, Pair> list2 = energyRepository.getComparisonOfTwoMunicipalities(municipality1, municipality2);
+				printListComparisonOfTwoMunicipalities(list2, municipality1, municipality2);
 				break;
 			default:
 				System.out.println("Invalid input!");
@@ -101,47 +114,61 @@ public class Main {
 	private Options getOptions(String sortBy) {
 		int sort = inputService.readInt(String.format("Sort by (1 = %s, 2 = average consumption): ", sortBy));
 		int order = inputService.readInt("Order (1 = ↓, 2 = ↑): ");
+		cleanUp();
 		return new Options(sort, order);
 	}
 
 	private void printListAverage() {
-		cleanUp();
-		String mode;
-		if (function == Functions.AVERAGE_CONSUMPTION_PER_YEAR) {
-			mode = "Year";
-		} else {
-			mode = "Municipality";
-		}
-		System.out.printf("%-20s %12s%n", mode, "Average consumption");
+		String mode = (function == Functions.AVERAGE_CONSUMPTION_PER_YEAR) ? "Year" : "Municipality";
+		System.out.printf("%-30s %12s%n", mode, "Average consumption");
 		System.out.println("-----------------------------------------------------------");
 		for (Entry entry : list) {
-			String label = ("Municipality".equals(mode)) ? entry.getCommune() : Integer.toString(entry.getYear());
+			String label;
+			if ("Municipality".equals(mode)) {
+				label = entry.getMunicipality();
+			} else {
+				label = Integer.toString(entry.getYear());
+			}
 			Double averageConsumption = entry.getMwh();
-			System.out.printf("%-20s %12.2f MWh%n", label, averageConsumption);
+			System.out.printf("%-30s %12.2f MWh%n", label, averageConsumption);
 		}
+		pause();
+	}
+
+	private void printListComparisonOfTwoMunicipalities(Map<Integer, Pair> list, String municipality1, String municipality2) {
+		System.out.printf("%-10s %-30s %-30s%n", "Year", String.format("%s (total MWh)", municipality1), String.format("%s (total MWh)", municipality2));
+		System.out.println("--------------------------------------------------------------");
+		for (Map.Entry<Integer, Pair> entry : list.entrySet()) {
+			int year = entry.getKey();
+			Pair consumptionPair = entry.getValue();
+			System.out.printf("%-10d %-30.2f %-30.2f%n", year, consumptionPair.getFirst(), consumptionPair.getSecond());
+		}
+		pause();
 	}
 
 	private void printListHighestConsumers() {
-		cleanUp();
-		System.out.printf("%-20s %12s %12s%n", "Nr", "Municipality", "Total consumption");
-		System.out.println("-----------------------------------------------------------");
+		System.out.printf("%-5s %-20s %-12s%n", "Nr", "Municipality", "Total consumption");
+		System.out.println("--------------------------------------------");
 		for (int i = 0; i < list.size(); i++) {
-			String label = list.get(i).getCommune();
+			String label = list.get(i).getMunicipality();
 			Double totalConsumption = list.get(i).getMwh();
-			System.out.printf("%-20d %-20s %12.2f MWh%n", i + 1, label, totalConsumption);
+			System.out.printf("%-5d %-20s %12.2f MWh%n", i + 1, label, totalConsumption);
 		}
-
-	}
-
-	private void printListComparisonOfTwoMunicipalities() {
-		cleanUp();
-		System.out.printf("%-20s %12s %12s%n", "Year", "Municipality 1", "Municipality 2");
-		System.out.println("-----------------------------------------------------------");
+		pause();
 	}
 
 	private void cleanUp() {
 		for (int i = 0; i < 200; ++i) {
 			System.out.println();
+		}
+	}
+
+	private void pause() {
+		try {
+			Thread.sleep(10000);
+			run();
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
 		}
 	}
 }
