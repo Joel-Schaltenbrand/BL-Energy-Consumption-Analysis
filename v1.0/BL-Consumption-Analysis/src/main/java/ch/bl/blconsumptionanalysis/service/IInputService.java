@@ -25,8 +25,26 @@
 
 package ch.bl.blconsumptionanalysis.service;
 
+/**
+ * This interface is used to read the user input.
+ *
+ * @author Joel Schaltenbrand, Leon Hochwimmer
+ * @version 1.0
+ */
 public interface IInputService {
+	/**
+	 * This method is used to read the user input.
+	 *
+	 * @param message The message to be displayed to the user.
+	 * @return The user input as a String.
+	 */
 	String readString(String message);
 
+	/**
+	 * This method is used to read the user input.
+	 *
+	 * @param message The message to be displayed to the user.
+	 * @return The user input as an int.
+	 */
 	int readInt(String message);
 }

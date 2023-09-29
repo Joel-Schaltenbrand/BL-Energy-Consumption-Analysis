@@ -28,6 +28,7 @@ package ch.bl.blconsumptionanalysis.repository;
 import ch.bl.blconsumptionanalysis.dao.JSONReaderDAO;
 import ch.bl.blconsumptionanalysis.model.Entry;
 import ch.bl.blconsumptionanalysis.model.Options;
+import ch.bl.blconsumptionanalysis.model.Pair;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -36,7 +37,14 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
+/**
+ * This class is used to read the JSON files and to create a list of the corresponding objects.
+ *
+ * @author Joel Schaltenbrand, Leon Hochwimmer
+ * @version 1.0
+ */
 @Repository
 public class EnergyRepository extends AbstractBaseRepository<Entry> {
 
@@ -44,14 +52,20 @@ public class EnergyRepository extends AbstractBaseRepository<Entry> {
 		super(service, Entry.class);
 	}
 
-	public List<Entry> getAverageConsumptionPerCommune(Options options) {
+	/**
+	 * This method is used to return all objects of the corresponding list.
+	 *
+	 * @param options The options object.
+	 * @return The list of objects.
+	 */
+	public List<Entry> getAverageConsumptionPerMunicipality(Options options) {
 		Map<String, Double> averageConsumptionMap = new HashMap<>();
 		Map<String, Integer> communeCountMap = new HashMap<>();
 		for (Entry entry : entities) {
-			String commune = entry.getCommune();
+			String municipality = entry.getMunicipality();
 			double mwh = entry.getMwh();
-			averageConsumptionMap.put(commune, averageConsumptionMap.getOrDefault(commune, 0.0) + mwh);
-			communeCountMap.put(commune, communeCountMap.getOrDefault(commune, 0) + 1);
+			averageConsumptionMap.put(municipality, averageConsumptionMap.getOrDefault(municipality, 0.0) + mwh);
+			communeCountMap.put(municipality, communeCountMap.getOrDefault(municipality, 0) + 1);
 		}
 		List<Entry> result = new ArrayList<>();
 		for (Map.Entry<String, Double> entry : averageConsumptionMap.entrySet()) {
@@ -59,14 +73,20 @@ public class EnergyRepository extends AbstractBaseRepository<Entry> {
 			double totalConsumption = entry.getValue();
 			int count = communeCountMap.get(commune);
 			Entry entry1 = new Entry();
-			entry1.setCommune(commune);
+			entry1.setMunicipality(commune);
 			double averageConsumption = totalConsumption / count;
 			entry1.setMwh(averageConsumption);
 			result.add(entry1);
 		}
-		return applyOptions(options, result, Comparator.comparing(Entry::getCommune));
+		return applyOptions(options, result, Comparator.comparing(Entry::getMunicipality));
 	}
 
+	/**
+	 * This method is used to return all objects of the corresponding list.
+	 *
+	 * @param options The options object.
+	 * @return The list of objects.
+	 */
 	public List<Entry> getAverageConsumptionPerYear(Options options) {
 		Map<Integer, Double> averageConsumptionMap = new HashMap<>();
 		Map<Integer, Integer> yearCountMap = new HashMap<>();
@@ -100,5 +120,63 @@ public class EnergyRepository extends AbstractBaseRepository<Entry> {
 			Collections.reverse(result);
 		}
 		return result;
+	}
+
+	/**
+	 * This method is used to return all objects of the corresponding list.
+	 *
+	 * @return The list of objects.
+	 */
+	public List<Entry> getHighestConsumers() {
+		Map<String, Double> totalConsumptionMap = new HashMap<>();
+		for (Entry entry : entities) {
+			String municipality = entry.getMunicipality();
+			double consumption = entry.getMwh();
+			totalConsumptionMap.put(municipality, totalConsumptionMap.getOrDefault(municipality, 0.0) + consumption);
+		}
+		List<Entry> totalConsumptionList = new ArrayList<>();
+		for (Map.Entry<String, Double> entry : totalConsumptionMap.entrySet()) {
+			String municipality = entry.getKey();
+			double totalConsumption = entry.getValue();
+			Entry entry1 = new Entry();
+			entry1.setMunicipality(municipality);
+			entry1.setMwh(totalConsumption);
+			totalConsumptionList.add(entry1);
+		}
+		totalConsumptionList.sort(Comparator.comparingDouble(Entry::getMwh).reversed());
+		return totalConsumptionList.subList(0, 10);
+	}
+
+	/**
+	 * This method is used to return all objects of the corresponding list.
+	 *
+	 * @param municipality1 The first municipality.
+	 * @param municipality2 The second municipality.
+	 * @return The list of objects.
+	 */
+	public Map<Integer, Pair> getComparisonOfTwoMunicipalities(String municipality1, String municipality2) {
+		TreeMap<Integer, Pair> consumptionMap = new TreeMap<>();
+		for (Entry entry : entities) {
+			int year = entry.getYear();
+			String commune = entry.getMunicipality();
+			double consumption = entry.getMwh();
+			if (commune.equalsIgnoreCase(municipality1)) {
+				if (consumptionMap.containsKey(year)) {
+					Pair pair = consumptionMap.get(year);
+					consumptionMap.put(year, new Pair(consumption, pair.getSecond()));
+				} else {
+					consumptionMap.put(year, new Pair(consumption, 0.0));
+				}
+			}
+			if (commune.equalsIgnoreCase(municipality2)) {
+				if (consumptionMap.containsKey(year)) {
+					Pair pair = consumptionMap.get(year);
+					consumptionMap.put(year, new Pair(pair.getFirst(), consumption));
+				} else {
+					consumptionMap.put(year, new Pair(0.0, consumption));
+				}
+			}
+		}
+		return consumptionMap;
 	}
 }

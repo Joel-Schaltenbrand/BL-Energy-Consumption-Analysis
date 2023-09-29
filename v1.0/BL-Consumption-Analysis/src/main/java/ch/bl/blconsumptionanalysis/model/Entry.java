@@ -31,6 +31,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * This class is used to represent an entry of the JSON file.
+ *
+ * @author Joel Schaltenbrand, Leon Hochwimmer
+ * @version 1.0
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -41,7 +47,7 @@ public class Entry {
 	private int year;
 
 	@SerializedName("gemeinde")
-	private String commune;
+	private String municipality;
 
 	@SerializedName("wert")
 	private double mwh;
