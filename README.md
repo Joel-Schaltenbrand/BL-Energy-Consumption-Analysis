@@ -53,7 +53,7 @@ Sample data record:
 
 ## Output
 
-Formatted output on the console.
+Formatted output on the console with inputs.
 
 ### Examples
 
