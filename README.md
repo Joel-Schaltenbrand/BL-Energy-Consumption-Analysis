@@ -5,6 +5,7 @@
 Energy Consumption BL
 
 ## Project Details
+
 This project is a collaborative effort between [@Joel-Schaltenbrand](https://github.com/Joel-Schaltenbrand) and [@Leonden](https://github.com/Leonden), who are currently enrolled in the M323 Functional Programming module at BBZBL (Berufsschule Baselland). The module focuses on applying functional programming concepts to address real-world data analysis challenges.
 
 ## Subprojects
@@ -37,17 +38,15 @@ Sample data record:
 
 ## Features
 
-1. Display the average consumption for all communes per year.
-2. Display the average consumption for all years per commune.
-3. Identify the highest consumption for a commune in a chosen year.
-4. Identify the lowest consumption for a commune in a chosen year.
-5. List the top 10 highest consumers overall.
-6. List the top 10 lowest consumers overall.
-7. Compare two communes.
+1. Display average consumption of the whole canton BL for each year individually.
+2. Display average consumption of all years summed up per municipality issued.
+3. Display 10 highest consumers (municipality) Total (All years summed up).
+4. Display comparison of 2 municipalities (All years individually)
 
 ## Technologies
-- Programming Language: Java
+
 - Framework: Spring
+- Programming Language: Java
 - UI: Console output using built-in tools
 - Type of Application: Console application
 - Functional Elements: Streams API, Lambda Expressions, GSON
