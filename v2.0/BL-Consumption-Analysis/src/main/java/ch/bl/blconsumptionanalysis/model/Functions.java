@@ -8,9 +8,9 @@ package ch.bl.blconsumptionanalysis.model;
  */
 public enum Functions {
 	AVERAGE_CONSUMPTION_PER_YEAR("Display average consumption of the whole canton BL for each year individually."),
-	AVERAGE_CONSUMPTION_PER_MUNICIPALITY("Display average consumption of all years summed up per municipality issued."),
-	HIGHEST_CONSUMERS("Display 10 highest consumers (municipality) Total (All years summed up)."),
-	COMPARISON_OF_TWO_MUNICIPALITIES("Display comparison of 2 municipalities (All years individually).");
+	AVERAGE_CONSUMPTION_PER_COMMUNE("Display average consumption of all years summed up per commune issued."),
+	HIGHEST_CONSUMERS("Display 10 highest consumers (commune) Total (All years summed up)."),
+	COMPARISON_OF_TWO_COMMUNES("Display comparison of 2 communes (All years individually).");
 
 	private final String description;
 
