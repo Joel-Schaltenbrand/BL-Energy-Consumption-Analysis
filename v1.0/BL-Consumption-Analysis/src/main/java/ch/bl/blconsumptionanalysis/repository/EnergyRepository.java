@@ -58,14 +58,14 @@ public class EnergyRepository extends AbstractBaseRepository<Entry> {
 	 * @param options The options object.
 	 * @return The list of objects.
 	 */
-	public List<Entry> getAverageConsumptionPerMunicipality(Options options) {
+	public List<Entry> getAverageConsumptionPerCommune(Options options) {
 		Map<String, Double> averageConsumptionMap = new HashMap<>();
 		Map<String, Integer> communeCountMap = new HashMap<>();
 		for (Entry entry : entities) {
-			String municipality = entry.getMunicipality();
+			String commune = entry.getCommune();
 			double mwh = entry.getMwh();
-			averageConsumptionMap.put(municipality, averageConsumptionMap.getOrDefault(municipality, 0.0) + mwh);
-			communeCountMap.put(municipality, communeCountMap.getOrDefault(municipality, 0) + 1);
+			averageConsumptionMap.put(commune, averageConsumptionMap.getOrDefault(commune, 0.0) + mwh);
+			communeCountMap.put(commune, communeCountMap.getOrDefault(commune, 0) + 1);
 		}
 		List<Entry> result = new ArrayList<>();
 		for (Map.Entry<String, Double> entry : averageConsumptionMap.entrySet()) {
@@ -73,12 +73,12 @@ public class EnergyRepository extends AbstractBaseRepository<Entry> {
 			double totalConsumption = entry.getValue();
 			int count = communeCountMap.get(commune);
 			Entry entry1 = new Entry();
-			entry1.setMunicipality(commune);
+			entry1.setCommune(commune);
 			double averageConsumption = totalConsumption / count;
 			entry1.setMwh(averageConsumption);
 			result.add(entry1);
 		}
-		return applyOptions(options, result, Comparator.comparing(Entry::getMunicipality));
+		return applyOptions(options, result, Comparator.comparing(Entry::getCommune));
 	}
 
 	/**
@@ -130,16 +130,16 @@ public class EnergyRepository extends AbstractBaseRepository<Entry> {
 	public List<Entry> getHighestConsumers() {
 		Map<String, Double> totalConsumptionMap = new HashMap<>();
 		for (Entry entry : entities) {
-			String municipality = entry.getMunicipality();
+			String commune = entry.getCommune();
 			double consumption = entry.getMwh();
-			totalConsumptionMap.put(municipality, totalConsumptionMap.getOrDefault(municipality, 0.0) + consumption);
+			totalConsumptionMap.put(commune, totalConsumptionMap.getOrDefault(commune, 0.0) + consumption);
 		}
 		List<Entry> totalConsumptionList = new ArrayList<>();
 		for (Map.Entry<String, Double> entry : totalConsumptionMap.entrySet()) {
-			String municipality = entry.getKey();
+			String commune = entry.getKey();
 			double totalConsumption = entry.getValue();
 			Entry entry1 = new Entry();
-			entry1.setMunicipality(municipality);
+			entry1.setCommune(commune);
 			entry1.setMwh(totalConsumption);
 			totalConsumptionList.add(entry1);
 		}
@@ -150,17 +150,17 @@ public class EnergyRepository extends AbstractBaseRepository<Entry> {
 	/**
 	 * This method is used to return all objects of the corresponding list.
 	 *
-	 * @param municipality1 The first municipality.
-	 * @param municipality2 The second municipality.
+	 * @param commune1 The first commune.
+	 * @param commune2 The second commune.
 	 * @return The list of objects.
 	 */
-	public Map<Integer, Pair> getComparisonOfTwoMunicipalities(String municipality1, String municipality2) {
+	public Map<Integer, Pair> getComparisonOfTwoCommunes(String commune1, String commune2) {
 		TreeMap<Integer, Pair> consumptionMap = new TreeMap<>();
 		for (Entry entry : entities) {
 			int year = entry.getYear();
-			String commune = entry.getMunicipality();
+			String commune = entry.getCommune();
 			double consumption = entry.getMwh();
-			if (commune.equalsIgnoreCase(municipality1)) {
+			if (commune.equalsIgnoreCase(commune1)) {
 				if (consumptionMap.containsKey(year)) {
 					Pair pair = consumptionMap.get(year);
 					consumptionMap.put(year, new Pair(consumption, pair.getSecond()));
@@ -168,7 +168,7 @@ public class EnergyRepository extends AbstractBaseRepository<Entry> {
 					consumptionMap.put(year, new Pair(consumption, 0.0));
 				}
 			}
-			if (commune.equalsIgnoreCase(municipality2)) {
+			if (commune.equalsIgnoreCase(commune2)) {
 				if (consumptionMap.containsKey(year)) {
 					Pair pair = consumptionMap.get(year);
 					consumptionMap.put(year, new Pair(pair.getFirst(), consumption));

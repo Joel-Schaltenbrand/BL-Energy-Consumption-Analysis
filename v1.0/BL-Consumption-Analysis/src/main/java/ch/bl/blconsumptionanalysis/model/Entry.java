@@ -47,7 +47,7 @@ public class Entry {
 	private int year;
 
 	@SerializedName("gemeinde")
-	private String municipality;
+	private String commune;
 
 	@SerializedName("wert")
 	private double mwh;

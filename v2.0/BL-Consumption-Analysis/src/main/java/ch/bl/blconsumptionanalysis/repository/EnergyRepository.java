@@ -57,11 +57,11 @@ public class EnergyRepository extends AbstractBaseRepository<Entry> {
 	 * @param options The options object.
 	 * @return The list of objects.
 	 */
-	public List<Entry> getAverageConsumptionPerMunicipality(Options options) {
-		Map<String, List<Entry>> municipalityToEntries = entities.stream()
-				.collect(Collectors.groupingBy(Entry::getMunicipality));
+	public List<Entry> getAverageConsumptionPerCommune(Options options) {
+		Map<String, List<Entry>> communeToEntries = entities.stream()
+				.collect(Collectors.groupingBy(Entry::getCommune));
 
-		List<Entry> result = municipalityToEntries.entrySet().stream()
+		List<Entry> result = communeToEntries.entrySet().stream()
 				.map(entry -> {
 					String commune = entry.getKey();
 					List<Entry> entries = entry.getValue();
@@ -72,13 +72,13 @@ public class EnergyRepository extends AbstractBaseRepository<Entry> {
 					double averageConsumption = totalConsumption / count;
 
 					Entry newEntry = new Entry();
-					newEntry.setMunicipality(commune);
+					newEntry.setCommune(commune);
 					newEntry.setMwh(averageConsumption);
 
 					return newEntry;
 				})
 				.collect(Collectors.toList());
-		return applyOptions(options, result, Comparator.comparing(Entry::getMunicipality));
+		return applyOptions(options, result, Comparator.comparing(Entry::getCommune));
 	}
 
 	/**
@@ -131,14 +131,14 @@ public class EnergyRepository extends AbstractBaseRepository<Entry> {
 	 */
 	public List<Entry> getHighestConsumers() {
 		Map<String, Double> totalConsumptionMap = entities.stream()
-				.collect(Collectors.groupingBy(Entry::getMunicipality, Collectors.summingDouble(Entry::getMwh)));
+				.collect(Collectors.groupingBy(Entry::getCommune, Collectors.summingDouble(Entry::getMwh)));
 
 		return totalConsumptionMap.entrySet().stream()
 				.map(entry -> {
-					String municipality = entry.getKey();
+					String commune = entry.getKey();
 					double totalConsumption = entry.getValue();
 					Entry newEntry = new Entry();
-					newEntry.setMunicipality(municipality);
+					newEntry.setCommune(commune);
 					newEntry.setMwh(totalConsumption);
 					return newEntry;
 				})
@@ -150,28 +150,28 @@ public class EnergyRepository extends AbstractBaseRepository<Entry> {
 	/**
 	 * This method is used to return all objects of the corresponding list.
 	 *
-	 * @param municipality1 The first municipality.
-	 * @param municipality2 The second municipality.
+	 * @param commune1 The first commune.
+	 * @param commune2 The second commune.
 	 * @return The list of objects.
 	 */
-	public Map<Integer, Pair> getComparisonOfTwoMunicipalities(String municipality1, String municipality2) {
+	public Map<Integer, Pair> getComparisonOfTwoCommunes(String commune1, String commune2) {
 
 		return entities.stream()
-				.filter(entry -> entry.getMunicipality().equalsIgnoreCase(municipality1)
-						|| entry.getMunicipality().equalsIgnoreCase(municipality2))
+				.filter(entry -> entry.getCommune().equalsIgnoreCase(commune1)
+						|| entry.getCommune().equalsIgnoreCase(commune2))
 				.collect(
 						Collectors.groupingBy(
 								Entry::getYear,
 								TreeMap::new,
 								Collectors.collectingAndThen(
 										Collectors.toMap(
-												Entry::getMunicipality,
+												Entry::getCommune,
 												Entry::getMwh,
 												Double::sum
 										),
 										map -> {
-											double consumption1 = map.getOrDefault(municipality1, 0.0);
-											double consumption2 = map.getOrDefault(municipality2, 0.0);
+											double consumption1 = map.getOrDefault(commune1, 0.0);
+											double consumption2 = map.getOrDefault(commune2, 0.0);
 											return new Pair(consumption1, consumption2);
 										}
 								)

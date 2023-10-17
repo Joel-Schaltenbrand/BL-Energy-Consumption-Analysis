@@ -90,20 +90,20 @@ public class Main {
 				list = energyRepository.getAverageConsumptionPerYear(getOptions("Year"));
 				printListAverage();
 				break;
-			case AVERAGE_CONSUMPTION_PER_MUNICIPALITY:
-				list = energyRepository.getAverageConsumptionPerMunicipality(getOptions("Municipality"));
+			case AVERAGE_CONSUMPTION_PER_COMMUNE:
+				list = energyRepository.getAverageConsumptionPerCommune(getOptions("Commune"));
 				printListAverage();
 				break;
 			case HIGHEST_CONSUMERS:
 				list = energyRepository.getHighestConsumers();
 				printListHighestConsumers();
 				break;
-			case COMPARISON_OF_TWO_MUNICIPALITIES:
-				String municipality1 = inputService.readString("First municipality: ");
-				String municipality2 = inputService.readString("Second municipality: ");
+			case COMPARISON_OF_TWO_COMMUNES:
+				String commune1 = inputService.readString("First commune: ");
+				String commune2 = inputService.readString("Second commune: ");
 				cleanUp();
-				Map<Integer, Pair> list2 = energyRepository.getComparisonOfTwoMunicipalities(municipality1, municipality2);
-				printListComparisonOfTwoMunicipalities(list2, municipality1, municipality2);
+				Map<Integer, Pair> list2 = energyRepository.getComparisonOfTwoCommunes(commune1, commune2);
+				printListComparisonOfTwoCommunes(list2, commune1, commune2);
 				break;
 			default:
 				System.out.println("Invalid input!");
@@ -119,13 +119,13 @@ public class Main {
 	}
 
 	private void printListAverage() {
-		String mode = (function == Functions.AVERAGE_CONSUMPTION_PER_YEAR) ? "Year" : "Municipality";
+		String mode = (function == Functions.AVERAGE_CONSUMPTION_PER_YEAR) ? "Year" : "Commune";
 		System.out.printf("%-30s %12s%n", mode, "Average consumption");
 		System.out.println("-----------------------------------------------------------");
 		for (Entry entry : list) {
 			String label;
-			if ("Municipality".equals(mode)) {
-				label = entry.getMunicipality();
+			if ("Commune".equals(mode)) {
+				label = entry.getCommune();
 			} else {
 				label = Integer.toString(entry.getYear());
 			}
@@ -135,8 +135,8 @@ public class Main {
 		pause();
 	}
 
-	private void printListComparisonOfTwoMunicipalities(Map<Integer, Pair> list, String municipality1, String municipality2) {
-		System.out.printf("%-10s %-30s %-30s%n", "Year", String.format("%s (total MWh)", municipality1), String.format("%s (total MWh)", municipality2));
+	private void printListComparisonOfTwoCommunes(Map<Integer, Pair> list, String commune1, String commune2) {
+		System.out.printf("%-10s %-30s %-30s%n", "Year", String.format("%s (total MWh)", commune1), String.format("%s (total MWh)", commune2));
 		System.out.println("--------------------------------------------------------------");
 		for (Map.Entry<Integer, Pair> entry : list.entrySet()) {
 			int year = entry.getKey();
@@ -147,10 +147,10 @@ public class Main {
 	}
 
 	private void printListHighestConsumers() {
-		System.out.printf("%-5s %-20s %-12s%n", "Nr", "Municipality", "Total consumption");
+		System.out.printf("%-5s %-20s %-12s%n", "Nr", "Commune", "Total consumption");
 		System.out.println("--------------------------------------------");
 		for (int i = 0; i < list.size(); i++) {
-			String label = list.get(i).getMunicipality();
+			String label = list.get(i).getCommune();
 			Double totalConsumption = list.get(i).getMwh();
 			System.out.printf("%-5d %-20s %12.2f MWh%n", i + 1, label, totalConsumption);
 		}
